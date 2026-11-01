@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<header th:fragment="header" class="site-header">
+    <nav class="navbar container">
+        <a th:href="@{/products}" class="brand">ThinkMart</a>
+        <div class="nav-links">
+            <a th:href="@{/products}">Products</a>
+            <a th:href="@{/about}">About Us</a>
+            <a th:href="@{/contact}">Contact Us</a>
+            <a th:href="@{/cart}" class="cart-link">
+                Cart
+                <span class="cart-count" th:text="${cartCount}">0</span>
+            </a>
+        </div>
+    </nav>
+</header>
+</body>
+</html>

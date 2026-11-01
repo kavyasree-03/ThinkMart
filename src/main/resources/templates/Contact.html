@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ThinkMart | Contact</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<main class="page-shell container contact-page">
+    <section class="section-header">
+        <div>
+            <p class="eyebrow">Get in touch</p>
+            <h1>Contact ThinkMart</h1>
+        </div>
+    </section>
+
+    <div th:if="${successMessage != null}" class="alert success" th:text="${successMessage}"></div>
+    <div th:if="${errorMessage != null}" class="alert error" th:text="${errorMessage}"></div>
+
+    <section class="contact-layout">
+        <div class="panel contact-form-panel">
+            <h2>Send us a message</h2>
+            <form th:action="@{/contact}" th:object="${contactRequest}" method="post" class="contact-form">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input id="name" type="text" th:field="*{name}" placeholder="Your name">
+                    <small class="error-message" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input id="email" type="email" th:field="*{email}" placeholder="you@example.com">
+                    <small class="error-message" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" rows="5" th:field="*{message}" placeholder="Tell us how we can help"></textarea>
+                    <small class="error-message" th:if="${#fields.hasErrors('message')}" th:errors="*{message}"></small>
+                </div>
+
+                <button type="submit" class="primary-btn">Submit</button>
+            </form>
+        </div>
+
+        <aside class="contact-info">
+            <div class="panel contact-card">
+                <h3>Company information</h3>
+                <p>Demo Street, Sample City</p>
+                <p>+1 (555) 103-2020</p>
+                <p>support@thinkmart-demo.com</p>
+            </div>
+            <div class="panel contact-card">
+                <h3>Social</h3>
+                <div class="social-links">
+                    <a href="https://instagram.com" target="_blank" rel="noreferrer">Instagram</a>
+                    <a href="https://facebook.com" target="_blank" rel="noreferrer">Facebook</a>
+                    <a href="https://linkedin.com" target="_blank" rel="noreferrer">LinkedIn</a>
+                </div>
+            </div>
+        </aside>
+    </section>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

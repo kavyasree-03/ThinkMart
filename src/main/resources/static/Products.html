@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Think Mart · Products</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-logo">
+      <a href="Home-Page.html"><i class="fas fa-store"></i> Think<span>Mart</span></a>
+    </div>
+    <ul class="nav-links">
+      <li><a href="Home-Page.html">Home</a></li>
+      <li><a href="Products.html" class="active">Products</a></li>
+      <li><a href="About.html">About</a></li>
+      <li><a href="Contact.html">Contact</a></li>
+      <li><a href="Cart.html">Cart</a></li>
+    </ul>
+    <div class="nav-icons">
+      <a href="index.html" title="Login"><i class="fas fa-user-circle"></i></a>
+      <a href="Cart.html" title="Cart">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-badge">0</span>
+      </a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="page-header">
+      <h1><i class="fas fa-laptop"></i> Our Products</h1>
+      <p>Discover top-rated laptops, mobiles, watches, and more — with exclusive discounts.</p>
+    </div>
+
+    <!-- CATEGORY FILTER -->
+    <div class="category-row" id="categoryRow">
+      <button class="category-pill active" data-cat="">All</button>
+      <button class="category-pill" data-cat="Laptops"><i class="fas fa-laptop"></i> Laptops</button>
+      <button class="category-pill" data-cat="Mobiles"><i class="fas fa-mobile-alt"></i> Mobiles</button>
+      <button class="category-pill" data-cat="Watches"><i class="fas fa-clock"></i> Watches</button>
+      <button class="category-pill" data-cat="Audio"><i class="fas fa-headphones"></i> Audio</button>
+      <button class="category-pill" data-cat="Tablets"><i class="fas fa-tablet-alt"></i> Tablets</button>
+    </div>
+
+    <div class="product-grid" id="productGrid">
+      <p style="color:#64748b;">Loading products...</p>
+    </div>
+
+    <div class="footer-note">
+      <i class="fas fa-truck"></i> Free shipping over $50 &nbsp;|&nbsp;
+      <i class="fas fa-undo-alt"></i> 30-day returns &nbsp;|&nbsp;
+      <i class="fas fa-shield-alt"></i> Secure checkout
+    </div>
+  </div>
+
+  <script>
+    const grid = document.getElementById('productGrid');
+    let allProducts = [];
+
+    async function fetchProducts(category = '') {
+      try {
+        const url = category ? `/api/products?category=${encodeURIComponent(category)}` : '/api/products';
+        const res = await fetch(url);
+        allProducts = await res.json();
+        renderProducts(allProducts);
+      } catch (e) {
+        grid.innerHTML = '<p style="color:#ef4444;">Failed to load products. Is backend running?</p>';
+      }
+    }
+
+    function renderProducts(products) {
+      if (products.length === 0) {
+        grid.innerHTML = '<p style="color:#64748b;">No products in this category.</p>';
+        return;
+      }
+      grid.innerHTML = products.map(p => `
+        <div class="product-card" data-id="${p.id}">
+          <div class="product-image">
+            <img src="${p.imageUrl}" alt="${p.title}">
+            ${p.discountPercent ? `<span class="discount-tag">-${p.discountPercent}%</span>` : ''}
+          </div>
+          <div class="product-info">
+            <div class="product-category">${p.category || ''}</div>
+            <h3 class="product-title">${p.title}</h3>
+            <div class="rating">
+              ${renderStars(p.rating || 0)}
+              <span>(${(p.rating || 0).toFixed(1)})</span>
+            </div>
+            <div class="price-section">
+              <span class="current-price">$${p.price.toLocaleString()}</span>
+              ${p.oldPrice ? `<span class="old-price">$${p.oldPrice.toLocaleString()}</span>` : ''}
+            </div>
+            <button class="add-to-cart" data-id="${p.id}">
+              <i class="fas fa-cart-plus"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+      `).join('');
+
+      grid.querySelectorAll('.add-to-cart').forEach(btn => {
+        btn.addEventListener('click', () => addToCart(Number(btn.dataset.id)));
+      });
+    }
+
+    function renderStars(rating) {
+      let html = '';
+      for (let i = 1; i <= 5; i++) {
+        if (rating >= i) html += '<i class="fas fa-star"></i>';
+        else if (rating >= i - 0.5) html += '<i class="fas fa-star-half-alt"></i>';
+        else html += '<i class="far fa-star"></i>';
+      }
+      return html;
+    }
+
+    // category filter
+    document.getElementById('categoryRow').addEventListener('click', (e) => {
+      const btn = e.target.closest('.category-pill');
+      if (!btn) return;
+      document.querySelectorAll('#categoryRow .category-pill').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      fetchProducts(btn.dataset.cat);
+    });
+
+    document.addEventListener('DOMContentLoaded', () => fetchProducts());
+  </script>
+  <script src="scripts/cart.js"></script>
+</body>
+</html>

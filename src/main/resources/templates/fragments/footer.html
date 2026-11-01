@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<footer th:fragment="footer" class="site-footer">
+    <div class="container footer-inner">
+        <div>
+            <h4>ThinkMart</h4>
+            <p>Demo storefront for sample product discovery, cart management, and checkout flows.</p>
+        </div>
+        <div>
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a th:href="@{/products}">Products</a></li>
+                <li><a th:href="@{/about}">About</a></li>
+                <li><a th:href="@{/contact}">Contact</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4>Support</h4>
+            <ul>
+                <li>support@thinkmart-demo.com</li>
+                <li>+1 (555) 102-2040</li>
+                <li>Demo Street, Sample City</li>
+            </ul>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

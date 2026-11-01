@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ThinkMart | Order Confirmation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<main class="page-shell container">
+    <section class="panel success-panel">
+        <p class="eyebrow">Order received</p>
+        <h1>Thank you for shopping with ThinkMart</h1>
+        <p>Your demo order has been placed successfully.</p>
+        <div class="order-number-box">
+            <span>Order Number</span>
+            <strong th:text="${orderNumber}"></strong>
+        </div>
+        <p>This is a demonstration checkout and does not process a real payment.</p>
+        <a th:href="@{/products}" class="primary-btn">Continue Shopping</a>
+    </section>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Think Mart · Cart</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+  <!-- ========== NAVIGATION ========== -->
+  <nav>
+    <div class="nav-logo">
+      <a href="Home-Page.html"><i class="fas fa-store"></i> Think<span>Mart</span></a>
+    </div>
+    <ul class="nav-links">
+      <li><a href="Home-Page.html">Home</a></li>
+      <li><a href="Products.html">Products</a></li>
+      <li><a href="About.html">About</a></li>
+      <li><a href="Contact.html">Contact</a></li>
+      <li><a href="Cart.html" class="active">Cart</a></li>
+    </ul>
+    <div class="nav-icons">
+      <a href="index.html" title="Login"><i class="fas fa-user-circle"></i></a>
+      <a href="Cart.html" title="Cart">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-badge">0</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- ========== CART CONTENT ========== -->
+  <div class="container">
+    <div class="page-header">
+      <h1><i class="fas fa-shopping-cart"></i> Your Cart</h1>
+      <p>Review your items and proceed to checkout</p>
+    </div>
+
+    <div class="cart-layout">
+      <!-- Cart items container – populated by JS -->
+      <div class="cart-items" id="cartItems">
+        <p style="color:#64748b;">Loading cart...</p>
+      </div>
+
+      <!-- Order summary – populated by JS -->
+      <div class="order-summary" id="orderSummary">
+        <h3>Order Summary</h3>
+        <div class="summary-row"><span>Subtotal</span><span>$0.00</span></div>
+        <div class="summary-row"><span>Shipping</span><span>Free</span></div>
+        <div class="summary-row"><span>Tax (8%)</span><span>$0.00</span></div>
+        <div class="summary-row total"><span>Total</span><span>$0.00</span></div>
+        <button class="checkout-btn" id="checkoutBtn">
+          <i class="fas fa-lock"></i> Proceed to Checkout
+        </button>
+      </div>
+    </div>
+
+    <div class="footer-note">
+      <i class="fas fa-truck"></i> Free shipping over $50 &nbsp;|&nbsp;
+      <i class="fas fa-undo-alt"></i> 30-day returns &nbsp;|&nbsp;
+      <i class="fas fa-shield-alt"></i> Secure checkout
+    </div>
+  </div>
+
+  <!-- ========== CHECKOUT LOGIC ========== -->
+  <script>
+    document.getElementById('checkoutBtn').addEventListener('click', async () => {
+      const sessionId = getSessionId();
+      try {
+        const res = await fetch(`/api/cart/clear/${sessionId}`, { method: 'DELETE' });
+        const data = await res.json();
+        if (data.success) {
+          alert('✅ Order placed successfully!\nThank you for shopping with Think Mart.');
+          window.location.href = 'Products.html';
+        } else {
+          alert('❌ Checkout failed. Please try again.');
+        }
+      } catch (e) {
+        alert('Server error. Is Spring Boot running?');
+        console.error(e);
+      }
+    });
+  </script>
+
+  <!-- ========== CART LOGIC (renders items via API) ========== -->
+  <script src="scripts/cart.js"></script>
+</body>
+</html>

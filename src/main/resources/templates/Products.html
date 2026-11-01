@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ThinkMart | Products</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<main class="page-shell container">
+    <section class="section-header">
+        <div>
+            <p class="eyebrow">Shop smarter</p>
+            <h1>Discover premium essentials</h1>
+        </div>
+    </section>
+
+    <div th:if="${successMessage != null}" class="alert success" th:text="${successMessage}"></div>
+    <div th:if="${errorMessage != null}" class="alert error" th:text="${errorMessage}"></div>
+
+    <section class="toolbar panel">
+        <form th:action="@{/products}" method="get" class="product-toolbar">
+            <input type="text" name="search" th:value="${search}" placeholder="Search products...">
+            <select name="category">
+                <option value="all" th:selected="${category == null or category == 'all'}">All Categories</option>
+                <option th:each="cat : ${categories}" th:value="${cat}" th:text="${cat}" th:selected="${category == cat}"></option>
+            </select>
+            <select name="sort">
+                <option value="nameAsc" th:selected="${sort == 'nameAsc'}">Featured</option>
+                <option value="priceLowHigh" th:selected="${sort == 'priceLowHigh'}">Price: Low to High</option>
+                <option value="priceHighLow" th:selected="${sort == 'priceHighLow'}">Price: High to Low</option>
+                <option value="rating" th:selected="${sort == 'rating'}">Rating</option>
+            </select>
+            <button type="submit" class="primary-btn">Apply</button>
+        </form>
+    </section>
+
+    <section th:if="${#lists.isEmpty(products)}" class="empty-state panel">
+        <h3>No products match your search.</h3>
+        <p>Try a different keyword or category to find more items.</p>
+    </section>
+
+    <section th:unless="${#lists.isEmpty(products)}" class="product-grid">
+        <article class="product-card" th:each="product : ${products}">
+            <div class="product-image-wrap">
+                <img th:src="${product.imageUrl}"
+                     th:alt="${product.name}"
+                     onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=900&q=80';">
+            </div>
+            <div class="product-body">
+                <div class="product-category" th:text="${product.category}"></div>
+                <h3 th:text="${product.name}"></h3>
+                <div class="rating-row">
+                    <span class="stars" th:text="${'★'.repeat(product.rating.intValue()) + (product.rating.scale() > 0 ? '☆' : '')}"></span>
+                    <span th:text="${product.rating}"></span>
+                </div>
+                <p class="description" th:text="${product.description}"></p>
+                <div class="price-row">
+                    <span class="original-price" th:text="${#numbers.formatCurrency(product.originalPrice)}"></span>
+                    <span class="discount-badge" th:text="${product.discountPercentage + '% OFF'}"></span>
+                </div>
+                <div class="final-price" th:text="${#numbers.formatCurrency(product.discountedPrice)}"></div>
+                <form th:action="@{/cart/add/{id}(id=${product.id})}" method="post" class="add-cart-form">
+                    <input type="hidden" name="quantity" value="1">
+                    <button type="submit" class="primary-btn block">Add to Cart</button>
+                </form>
+            </div>
+        </article>
+    </section>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<script th:src="@{/js/cart.js}"></script>
+</body>
+</html>

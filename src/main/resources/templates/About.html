@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ThinkMart | About Us</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<main class="page-shell container about-page">
+    <section class="hero-section panel">
+        <div>
+            <p class="eyebrow">Our story</p>
+            <h1>Small ideas, big experiences</h1>
+            <p>ThinkMart is a fictional storefront concept built to demonstrate a polished shopping experience, responsive design, and secure order handling for demo purposes.</p>
+            <a th:href="@{/products}" class="primary-btn">Explore Products</a>
+        </div>
+        <img src="https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=900&q=80" alt="Store team" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=900&q=80';">
+    </section>
+
+    <section class="info-grid">
+        <div class="panel">
+            <h3>Mission</h3>
+            <p>To make premium technology easy to discover, understand, and purchase with confidence.</p>
+        </div>
+        <div class="panel">
+            <h3>Vision</h3>
+            <p>To create a delightful digital shopping journey that blends convenience, clarity, and trust.</p>
+        </div>
+        <div class="panel">
+            <h3>Values</h3>
+            <p>Honest pricing, thoughtful design, quality assurance, and customer-first support.</p>
+        </div>
+    </section>
+
+    <section class="team-section">
+        <p class="eyebrow centered">Our team</p>
+        <h2>Meet the ThinkMart crew</h2>
+        <div class="team-grid">
+            <article class="team-card panel">
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=500&q=80" alt="Maya Chen">
+                <h4>Maya Chen</h4>
+                <p>Head of Product</p>
+            </article>
+            <article class="team-card panel">
+                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=500&q=80" alt="Oliver Ruiz">
+                <h4>Oliver Ruiz</h4>
+                <p>Customer Experience Lead</p>
+            </article>
+            <article class="team-card panel">
+                <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=500&q=80" alt="Priya Shah">
+                <h4>Priya Shah</h4>
+                <p>Quality & Testing</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="trust-grid">
+        <div class="panel badge">Trusted by 12k+ shoppers</div>
+        <div class="panel badge">Curated product quality</div>
+        <div class="panel badge">Fast support response</div>
+        <div class="panel badge">Secure demo checkout</div>
+    </section>
+
+    <section class="panel qa-panel">
+        <h3>Quality assurance</h3>
+        <p>Each product listing is reviewed for price accuracy, stock consistency, and presentation quality. This demo project is intentionally for learning and demonstration and not a live business operation.</p>
+    </section>
+
+    <section class="support-panel panel">
+        <h3>Customer support</h3>
+        <p>Email: support@thinkmart-demo.com</p>
+        <p>Phone: +1 (555) 102-2040</p>
+        <p>Hours: Mon–Sat, 9:00 AM to 6:00 PM</p>
+    </section>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>
